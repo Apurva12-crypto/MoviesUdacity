@@ -1,7 +1,7 @@
 package com.example.moviesfinal;
 
 import android.content.Context;
-import android.graphics.Movie;
+
 
 import org.json.JSONArray;
 import org.json.JSONException;
