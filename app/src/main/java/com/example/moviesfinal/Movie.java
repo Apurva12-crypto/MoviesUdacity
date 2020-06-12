@@ -33,6 +33,9 @@ public class Movie {
     public void setPoster(String poster) {
         this.poster = poster;
     }
+    public void getPoster(String poster) {
+        this.poster = poster;
+    }
 
     public String getRelease() {
         return release;
@@ -58,4 +61,6 @@ public class Movie {
         this.overview = overview;
     }
 
+    public void get(int position) {
+    }
 }
