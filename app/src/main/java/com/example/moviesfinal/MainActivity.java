@@ -32,7 +32,9 @@ public class MainActivity extends AppCompatActivity {
 
     private ImageView imageView;
   private TextView title;
-    private Movie[] Movies;
+    private Movie[] Movies=new Movie[0];
+    private  String sortType="popular";
+    private FetchData task;
 
 
     @Override
@@ -40,15 +42,20 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        String SORT_BY_POPULAR = "http://api.themoviedb.org/3/movie/popular?api_key=";
-        String SORT_BY_TOP_RATING = "http://api.themoviedb.org/3/movie/top_rated?api_key=";
+        // Execute AsyncTask to get data from the API
+        // send sort criteria (popular or top_rated)
+        task=  new FetchData();
+        task.execute("popular");
+
+
+
+
+
 
         imageView = (ImageView) findViewById(R.id.myImage);
         title = (TextView) findViewById(R.id.movieName);
 
-        // Execute AsyncTask to get data from the API
-        // send sort criteria (popular or top_rated)
-        new FetchData().execute("popular");
+
         recyclerView = (RecyclerView) findViewById(R.id.dear_RecyclerView);
 
         // use a linear layout manager
@@ -69,24 +76,33 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         int menuItemThatWasSelected = item.getItemId();
-        if (menuItemThatWasSelected == R.id.action_settings) {
+
             Context context = MainActivity.this;
-            String message = "Settings Clicked";
-            Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
+
+
             switch (menuItemThatWasSelected){
                 case R.id.popular:
-                    Toast.makeText(getApplicationContext(),"Most Popular Movies option selected",Toast.LENGTH_LONG).show();
+                    sortType="popular";
+                    Toast.makeText(getApplicationContext(),"Sort By Popular",Toast.LENGTH_LONG).show();
+
+
+                    // Network Call (popular)
+
                     return true;
                 case R.id.topRated:
-                    Toast.makeText(getApplicationContext(),"High Selected",Toast.LENGTH_LONG).show();
-                    return true;
+                    sortType="top_rated";
+                    Toast.makeText(getApplicationContext(),"Sort By Rating",Toast.LENGTH_LONG).show();
 
-                default:
-                    return super.onOptionsItemSelected(item);
+
+
             }
-        }
+        task.cancel(true);
+        task=new FetchData();
+        task.execute(sortType);
         return super.onOptionsItemSelected(item);
-    }
+        }
+
+
 
 
     //implementing image library Picasso
@@ -98,7 +114,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    class FetchData extends AsyncTask<String, Void, String> {
+   public class FetchData extends AsyncTask<String, Void, String> {
         @Override
         protected String doInBackground(String... strings) {
             try {
@@ -108,9 +124,13 @@ public class MainActivity extends AppCompatActivity {
 
                 // fetch movies from the API
                 String result = NetworkUtils.getResponseFromHttpUrl(url);
+
                 return result;
 
-            } catch (IOException e) {
+
+
+            }
+            catch (IOException e) {
                 e.printStackTrace();
             }
             return null;
@@ -122,8 +142,9 @@ public class MainActivity extends AppCompatActivity {
             try {
                 Movie[] Movies = JsonUtils.getMovieInformationsFromJson(MainActivity.this, s);
 
-                layoutManager = new GridLayoutManager(MainActivity.this, 2);
+                new GridLayoutManager(MainActivity.this, 2);
                 recyclerView.setLayoutManager(layoutManager);
+
 
                 mAdapter = new RecyclerViewAdapter(MainActivity.this, Movies);
                 recyclerView.setAdapter(mAdapter);

@@ -13,6 +13,8 @@ public class JsonUtils {
         final String TMDB_BASE_URL = "https://image.tmdb.org/t/p/";
         final String TMDB_POSTER_SIZE = "w500";
 
+
+
         // You guys recommended me to use key strings in my last code review, so here it is :)
         final String TMDB_RESULTS = "results";
         final String TMDB_POSTER_PATH = "poster_path";
