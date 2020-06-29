@@ -11,7 +11,7 @@ public class JsonUtils {
     public static Movie[] getMovieInformationsFromJson(Context context, String json) throws JSONException {
 
         final String TMDB_BASE_URL = "https://image.tmdb.org/t/p/";
-        final String TMDB_POSTER_SIZE = "w500";
+        final String TMDB_POSTER_SIZE = "w185";
 
 
 
