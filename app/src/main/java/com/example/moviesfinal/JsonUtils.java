@@ -51,6 +51,9 @@ public class JsonUtils {
             movie.setRate(vote_average);
             movie.setOverview(overview);
             movieResults[i] = movie;
+
+
+
         }
 
         return movieResults;

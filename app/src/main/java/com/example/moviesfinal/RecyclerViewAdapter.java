@@ -47,9 +47,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         // - replace the contents of the view with that element
         Movie mov = Movies[position];
         holder.Title.setText(mov.getTitle());
-        Picasso.get().load(mov.getPoster()).into(holder.image);
-
-
+        Picasso.get().load("http://image.tmdb.org/t/p/w185/" +mov.getPoster()).into(holder.image);
     }
 
     // Return the size of your dataset (invoked by the layout manager)
@@ -59,7 +57,9 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        private ImageView image;
+
+
+        public  ImageView image;
         private TextView Title;
 
 

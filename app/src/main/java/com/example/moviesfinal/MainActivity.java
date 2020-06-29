@@ -102,8 +102,9 @@ public class MainActivity extends AppCompatActivity {
     //implementing image library Picasso
 
     public void onClick(View view) {
+        Picasso.get().load("http://image.tmdb.org/t/p/w185/").into(imageView);
 
-        Picasso.get().load("http://image.tmdb.org/t/p/w185").into(imageView);
+
     }
 
     public class FetchData extends AsyncTask<String, Void, String> {

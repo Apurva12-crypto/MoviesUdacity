@@ -26,7 +26,7 @@ public class Movie {
         this.title = title;
     }
 
-    public String getPoster() {
+    public  String getPoster() {
         return poster;
     }
 
