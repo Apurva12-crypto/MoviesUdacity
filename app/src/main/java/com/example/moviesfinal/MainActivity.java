@@ -45,6 +45,9 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        String Sort_Popular="http://api.themoviedb.org/3/movie/popular?api_key=338b39a38ed5065e52e0281a6aa38361";
+        String Sort_Rating ="http://api.themoviedb.org/3/movie/top_rated?api_key=338b39a38ed5065e52e0281a6aa38361";
+
         task = new FetchData();
         task.execute("popular");
 
@@ -61,8 +64,6 @@ public class MainActivity extends AppCompatActivity {
         mAdapter = new RecyclerViewAdapter(context, Movies);
         recyclerView.setAdapter(mAdapter);
     }
-
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -84,6 +85,7 @@ public class MainActivity extends AppCompatActivity {
 
 
                 // Network Call (popular)
+
 
                 return true;
             case R.id.topRated:

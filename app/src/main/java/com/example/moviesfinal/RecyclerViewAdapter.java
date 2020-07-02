@@ -1,6 +1,7 @@
 package com.example.moviesfinal;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +16,8 @@ import com.squareup.picasso.Picasso;
 
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.MyViewHolder> {
+
+
 
     private Movie[] Movies;
     Context context;
@@ -47,7 +50,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         // - replace the contents of the view with that element
         Movie mov = Movies[position];
         holder.Title.setText(mov.getTitle());
-        Picasso.get().load("http://image.tmdb.org/t/p/w185/" +mov.getPoster()).into(holder.image);
+        Picasso.get().load(mov.getPoster()).into(holder.image);
+
     }
 
     // Return the size of your dataset (invoked by the layout manager)
