@@ -6,8 +6,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -18,7 +16,7 @@ import com.squareup.picasso.Picasso;
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.MyViewHolder> {
 
 
-
+    private static final String TAG ="error" ;
     private Movie[] Movies;
     Context context;
 
@@ -27,9 +25,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         this.Movies = myDataset;
         this.context=context;
     }
-
-
-
     // Create new views (invoked by the layout manager)
     @NonNull
     @Override
@@ -42,36 +37,27 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         return ViewHolder;
 
     }
-
     // Replace the contents of a view (invoked by the layout manager)
     @Override
     public void onBindViewHolder(@NonNull RecyclerViewAdapter.MyViewHolder holder, int position) {
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
         Movie mov = Movies[position];
-        holder.Title.setText(mov.getTitle());
+
         Picasso.get().load(mov.getPoster()).into(holder.image);
-
+        Log.d(TAG, "onBindViewHolder:picasso ");
     }
-
     // Return the size of your dataset (invoked by the layout manager)
     @Override
     public int getItemCount() {
         return Movies.length;
     }
-
     public class MyViewHolder extends RecyclerView.ViewHolder {
-
-
         public  ImageView image;
-        private TextView Title;
-
 
         public  MyViewHolder(View itemView) {
             super(itemView);
             image = (ImageView) itemView.findViewById(R.id.myImage);
-            Title = (TextView) itemView.findViewById(R.id.movieName);
-
         }
 
 

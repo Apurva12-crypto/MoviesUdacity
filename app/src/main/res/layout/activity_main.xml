@@ -13,6 +13,8 @@
         android:id="@+id/dear_RecyclerView"
         android:orientation="vertical">
 
+
+
     </androidx.recyclerview.widget.RecyclerView>
 
 </RelativeLayout>

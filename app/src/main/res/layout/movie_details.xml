@@ -1,8 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="240dp"
+        android:layout_height="230dp"
+        android:id="@+id/card_view"
+        app:cardBackgroundColor="@color/cardview_shadow_end_color"
+        app:cardCornerRadius="8dp"
+        app:cardElevation="5dp"
+        app:cardUseCompatPadding="true"/>
 
     <ImageView
         android:layout_width="200dp"
@@ -10,55 +19,6 @@
         android:id="@+id/myImage"
         android:paddingLeft="5dp"
         android:paddingTop="5dp"/>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/movieName"
-        android:text="Title"
-        android:textStyle="bold"
-        android:textSize="20sp"
-        android:layout_below="@+id/myImage"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="50dp"/>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/rating"
-        android:layout_below="@+id/movieName"
-        android:text="Rating"
-        android:textStyle="bold"
-        android:textSize="20dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginLeft="20dp"/>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/rating"
-        android:layout_marginLeft="20dp"
-        android:text="Overview"
-        android:textSize="20dp"
-        android:textStyle="bold"
-        android:id="@+id/movieOverview"
-        android:layout_marginTop="10dp"/>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/releaseDate"
-        android:text="Release Date"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        android:layout_below="@id/movieOverview"
-        android:layout_marginTop="10dp"
-        android:layout_marginLeft="20dp"/>
-
-
-
-
-
 
 
 

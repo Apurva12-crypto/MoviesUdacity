@@ -27,10 +27,6 @@ public class MovieDetailsActivity extends AppCompatActivity {
     }
     //Get the values from the incoming Intent
 
-
-
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

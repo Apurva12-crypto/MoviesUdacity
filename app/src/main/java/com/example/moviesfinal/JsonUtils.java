@@ -22,6 +22,7 @@ public class JsonUtils {
         final String TMDB_VOTE = "vote_average";
         final String TMDB_OVERVIEW = "overview";
         final String TMDB_RELEASE_DATE = "release_date";
+        final String TMDB_ID="movie_id";
 
 
         //and once again the amazing sunshine app.
@@ -35,6 +36,7 @@ public class JsonUtils {
 
         for (int i = 0; i < movieArray.length(); i++){
             String poster_path, title, vote_average, overview, release_date;
+            int id;
 
             Movie movie = new Movie();
             poster_path = movieArray.getJSONObject(i).optString(TMDB_POSTER_PATH);
@@ -43,6 +45,7 @@ public class JsonUtils {
             release_date = movieArray.getJSONObject(i).optString(TMDB_RELEASE_DATE);
             vote_average = movieArray.getJSONObject(i).optString(TMDB_VOTE);
             overview = movieArray.getJSONObject(i).optString(TMDB_OVERVIEW);
+            id=movieArray.getJSONObject(i).optInt(TMDB_ID);
 
             //setters
             movie.setPoster(TMDB_BASE_URL + TMDB_POSTER_SIZE + poster_path);
@@ -50,6 +53,7 @@ public class JsonUtils {
             movie.setRelease(release_date);
             movie.setRate(vote_average);
             movie.setOverview(overview);
+            movie.setId(id);
             movieResults[i] = movie;
 
 

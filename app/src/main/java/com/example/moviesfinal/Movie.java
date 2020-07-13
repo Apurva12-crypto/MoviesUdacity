@@ -2,18 +2,20 @@ package com.example.moviesfinal;
 
 public class Movie {
     private String title, poster, release, rate, overview;
+    private int id;
 
 
     //constructor
     public Movie(){
     }
 
-    public Movie(String title, String poster, String release, String rate, String overview){
+    public Movie(String title, String poster, String release, String rate, String overview,int id){
         this.title = title;
         this.poster = poster;
         this.release = release;
         this.rate = rate;
         this.overview = overview;
+        this.id=id;
 
     }
 
@@ -60,7 +62,12 @@ public class Movie {
     public void setOverview(String overview) {
         this.overview = overview;
     }
-
+    public int getId(){
+        return id;
+    }
+    public void setId(int id){
+        this.id= id;
+    }
     public void get(int position) {
     }
 }

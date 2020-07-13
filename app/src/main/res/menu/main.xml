@@ -8,7 +8,7 @@
         android:title="Popular Movies"
         android:id="@+id/popular"/>
     <item
-        android:title="Top Rated"
+        android:title="Top Rated Movies"
         android:id="@+id/topRated"/>
 
 </menu>

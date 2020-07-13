@@ -32,12 +32,12 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager layoutManager;
     private Context context;
-
     private ImageView imageView;
-    private TextView title;
+
     private Movie[] Movies = new Movie[0];
     private String sortType = "popular";
     private FetchData task;
+    private ImageView img;
 
 
     @Override
@@ -45,16 +45,15 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        String Sort_Popular="http://api.themoviedb.org/3/movie/popular?api_key=338b39a38ed5065e52e0281a6aa38361";
-        String Sort_Rating ="http://api.themoviedb.org/3/movie/top_rated?api_key=338b39a38ed5065e52e0281a6aa38361";
+
+        String Sort_Popular = "http://api.themoviedb.org/3/movie/popular?api_key=338b39a38ed5065e52e0281a6aa38361";
+        String Sort_Rating = "http://api.themoviedb.org/3/movie/top_rated?api_key=338b39a38ed5065e52e0281a6aa38361";
 
         task = new FetchData();
         task.execute("popular");
 
-        imageView = (ImageView) findViewById(R.id.myImage);
-        title = (TextView) findViewById(R.id.movieName);
-
         recyclerView = (RecyclerView) findViewById(R.id.dear_RecyclerView);
+        img = (ImageView) findViewById(R.id.myImage);
 
         // use a linear layout manager
         layoutManager = new GridLayoutManager(this, 2);
@@ -64,6 +63,7 @@ public class MainActivity extends AppCompatActivity {
         mAdapter = new RecyclerViewAdapter(context, Movies);
         recyclerView.setAdapter(mAdapter);
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -82,16 +82,13 @@ public class MainActivity extends AppCompatActivity {
             case R.id.popular:
                 sortType = "popular";
                 Toast.makeText(getApplicationContext(), "Sort By Popular", Toast.LENGTH_LONG).show();
-
-
                 // Network Call (popular)
-
-
-                return true;
+                break;
+//                return true;
             case R.id.topRated:
                 sortType = "top_rated";
                 Toast.makeText(getApplicationContext(), "Sort By Rating", Toast.LENGTH_LONG).show();
-
+                break;
 
         }
         task.cancel(true);
@@ -99,15 +96,12 @@ public class MainActivity extends AppCompatActivity {
         task.execute(sortType);
         return super.onOptionsItemSelected(item);
     }
-
-
     //implementing image library Picasso
 
     public void onClick(View view) {
         Picasso.get().load("http://image.tmdb.org/t/p/w185/").into(imageView);
-
-
     }
+
 
     public class FetchData extends AsyncTask<String, Void, String> {
         private static final String TAG = "error";
@@ -124,7 +118,7 @@ public class MainActivity extends AppCompatActivity {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            return "";
+            return null;
         }
 
         @Override
@@ -134,12 +128,11 @@ public class MainActivity extends AppCompatActivity {
 
             try {
 
-                    Movie[] Movies = JsonUtils.getMovieInformationsFromJson(MainActivity.this, s);
-                    new GridLayoutManager(MainActivity.this, 2);
-                    recyclerView.setLayoutManager(layoutManager);
-                    mAdapter = new RecyclerViewAdapter(MainActivity.this, Movies);
-                    recyclerView.setAdapter(mAdapter);
-
+                Movie[] Movies = JsonUtils.getMovieInformationsFromJson(MainActivity.this, s);
+                new GridLayoutManager(MainActivity.this, 2);
+                recyclerView.setLayoutManager(layoutManager);
+                mAdapter = new RecyclerViewAdapter(MainActivity.this, Movies);
+                recyclerView.setAdapter(mAdapter);
 
 
             } catch (JSONException e) {
@@ -148,12 +141,29 @@ public class MainActivity extends AppCompatActivity {
         }
 
     }
-}
+
+    public void setOnClickListeners() {
+        imageView.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                String movie_id = getId();
+
+                Intent intent = new Intent(MainActivity.this, MovieDetailsActivity.class);
+
+                intent.putExtra("movieId", movie_Id);
+
+                startActivity(intent);
+
+            }
+
+            public String getId() {
+
+                return movie_Id;
+
+            }
 
 
-
-
-
+        });
+    }
 
 
 
