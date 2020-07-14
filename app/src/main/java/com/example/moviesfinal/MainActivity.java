@@ -149,21 +149,18 @@ public class MainActivity extends AppCompatActivity {
 
                 Intent intent = new Intent(MainActivity.this, MovieDetailsActivity.class);
 
-                intent.putExtra("movieId", movie_Id);
+                intent.putExtra("movieId", movie_id);
 
                 startActivity(intent);
-
             }
-
             public String getId() {
 
-                return movie_Id;
+                return movie_id;
 
             }
-
-
         });
     }
+}
 
 
 
