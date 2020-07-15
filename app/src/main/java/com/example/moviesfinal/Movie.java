@@ -1,6 +1,9 @@
 package com.example.moviesfinal;
 
-public class Movie {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class Movie implements Parcelable {
     private String title, poster, release, rate, overview;
     private int id;
 
@@ -19,6 +22,27 @@ public class Movie {
 
     }
 
+    protected Movie(Parcel in) {
+        title = in.readString();
+        poster = in.readString();
+        release = in.readString();
+        rate = in.readString();
+        overview = in.readString();
+        id = in.readInt();
+    }
+
+    public static final Creator<Movie> CREATOR = new Creator<Movie>() {
+        @Override
+        public Movie createFromParcel(Parcel in) {
+            return new Movie(in);
+        }
+
+        @Override
+        public Movie[] newArray(int size) {
+            return new Movie[size];
+        }
+    };
+
     //generate getters and setters
     public String getTitle() {
         return title;
@@ -35,9 +59,7 @@ public class Movie {
     public void setPoster(String poster) {
         this.poster = poster;
     }
-    public void getPoster(String poster) {
-        this.poster = poster;
-    }
+
 
     public String getRelease() {
         return release;
@@ -69,5 +91,20 @@ public class Movie {
         this.id= id;
     }
     public void get(int position) {
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(title);
+        dest.writeString(poster);
+        dest.writeString(release);
+        dest.writeString(rate);
+        dest.writeString(overview);
+        dest.writeInt(id);
     }
 }

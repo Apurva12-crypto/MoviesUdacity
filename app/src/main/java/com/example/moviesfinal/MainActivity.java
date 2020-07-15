@@ -37,13 +37,14 @@ public class MainActivity extends AppCompatActivity {
     private Movie[] Movies = new Movie[0];
     private String sortType = "popular";
     private FetchData task;
-    private ImageView img;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
+
 
 
         String Sort_Popular = "http://api.themoviedb.org/3/movie/popular?api_key=338b39a38ed5065e52e0281a6aa38361";
@@ -53,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
         task.execute("popular");
 
         recyclerView = (RecyclerView) findViewById(R.id.dear_RecyclerView);
-        img = (ImageView) findViewById(R.id.myImage);
+        imageView = (ImageView) findViewById(R.id.myImage);
 
         // use a linear layout manager
         layoutManager = new GridLayoutManager(this, 2);
@@ -61,7 +62,9 @@ public class MainActivity extends AppCompatActivity {
 
         // specify an adapter (see also next example)
         mAdapter = new RecyclerViewAdapter(context, Movies);
-        recyclerView.setAdapter(mAdapter);
+                recyclerView.setAdapter(mAdapter);
+
+
     }
 
     @Override
@@ -142,24 +145,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    public void setOnClickListeners() {
-        imageView.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                String movie_id = getId();
 
-                Intent intent = new Intent(MainActivity.this, MovieDetailsActivity.class);
-
-                intent.putExtra("movieId", movie_id);
-
-                startActivity(intent);
-            }
-            public String getId() {
-
-                return movie_id;
-
-            }
-        });
-    }
 }
 
 
