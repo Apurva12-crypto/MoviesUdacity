@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:tools="http://schemas.android.com/tools">
+<RelativeLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MovieDetailsActivity">
@@ -25,7 +29,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/Movtitle"
-        android:text="Title: "
+        android:text=" Title: "
         android:textSize="35sp"
         android:paddingTop="35dp"
         android:layout_below="@+id/img1"/>
@@ -34,7 +38,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Release date: "
+        android:text=" Release date: "
         android:id="@+id/relDate"
         android:textSize="35sp"
         android:paddingTop="35dp"
@@ -43,7 +47,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Rating: "
+        android:text=" Rating: "
         android:id="@+id/rating1"
         android:textSize="35sp"
         android:paddingTop="35dp"
@@ -52,7 +56,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Overview: "
+        android:text=" Overview: "
         android:id="@+id/over"
         android:textSize="35sp"
         android:paddingTop="35dp"
@@ -64,3 +68,4 @@
 
 
 </RelativeLayout>
+    </androidx.core.widget.NestedScrollView>

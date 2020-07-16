@@ -47,14 +47,14 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-        String Sort_Popular = "http://api.themoviedb.org/3/movie/popular?api_key=338b39a38ed5065e52e0281a6aa38361";
-        String Sort_Rating = "http://api.themoviedb.org/3/movie/top_rated?api_key=338b39a38ed5065e52e0281a6aa38361";
+        String Sort_Popular = "http://api.themoviedb.org/3/movie/popular?api_key=YOUR_API_KEY";
+        String Sort_Rating = "http://api.themoviedb.org/3/movie/top_rated?api_key=YOUR_API_KEY";
 
         task = new FetchData();
         task.execute("popular");
 
-        recyclerView = (RecyclerView) findViewById(R.id.dear_RecyclerView);
-        imageView = (ImageView) findViewById(R.id.myImage);
+        recyclerView =  findViewById(R.id.dear_RecyclerView);
+        imageView = findViewById(R.id.myImage);
 
         // use a linear layout manager
         layoutManager = new GridLayoutManager(this, 2);
