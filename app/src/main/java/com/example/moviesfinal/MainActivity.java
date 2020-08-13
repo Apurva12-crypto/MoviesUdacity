@@ -1,7 +1,11 @@
 package com.example.moviesfinal;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -24,6 +28,7 @@ import org.json.JSONException;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -38,17 +43,31 @@ public class MainActivity extends AppCompatActivity {
     private String sortType = "popular";
     private FetchData task;
 
+    private MovieViewModel movieViewModel;
+
+    //  Create AppDatabase member variable for the Database
+    private AppDatabase mDb;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        movieViewModel = ViewModelProviders.of(this).get(MovieViewModel.class);
+        movieViewModel.getAllMovies().observe(this, new Observer<List<TaskEntry>>() {
+            @Override
+            public void onChanged(List<TaskEntry> taskEntries) {
+               Toast.makeText(MainActivity.this,"onChanged",Toast.LENGTH_SHORT).show();
+
+            }
+        });
 
 
 
 
-        String Sort_Popular = "http://api.themoviedb.org/3/movie/popular?api_key=YOUR_API_KEY";
-        String Sort_Rating = "http://api.themoviedb.org/3/movie/top_rated?api_key=YOUR_API_KEY";
+
+        String Sort_Popular = "http://api.themoviedb.org/3/movie/popular?api_key=338b39a38ed5065e52e0281a6aa38361";
+        String Sort_Rating = "http://api.themoviedb.org/3/movie/top_rated?api_key=338b39a38ed5065e52e0281a6aa38361";
 
         task = new FetchData();
         task.execute("popular");
@@ -64,7 +83,9 @@ public class MainActivity extends AppCompatActivity {
         mAdapter = new RecyclerViewAdapter(context, Movies);
                 recyclerView.setAdapter(mAdapter);
 
-
+        // COMPLETED (2) Initialize member variable for the data base
+        mDb = AppDatabase.getInstance(getApplicationContext());
+                
     }
 
     @Override

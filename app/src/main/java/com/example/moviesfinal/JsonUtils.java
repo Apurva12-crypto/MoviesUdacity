@@ -12,6 +12,7 @@ public class JsonUtils {
 
         final String TMDB_BASE_URL = "https://image.tmdb.org/t/p/";
         final String TMDB_POSTER_SIZE = "w185";
+         final String BACKDROP_SIZE = "w342";
 
 
 
