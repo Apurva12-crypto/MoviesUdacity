@@ -53,14 +53,25 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
+        RecyclerView s1 =findViewById(R.id.dear_RecyclerView);
+        s1.setLayoutManager(new LinearLayoutManager(this));
+        s1.setHasFixedSize(true);
+
+        final storeMovieAdapter adapter = new storeMovieAdapter();
+        s1.setAdapter(adapter);
+
         movieViewModel = ViewModelProviders.of(this).get(MovieViewModel.class);
         movieViewModel.getAllMovies().observe(this, new Observer<List<TaskEntry>>() {
             @Override
             public void onChanged(List<TaskEntry> taskEntries) {
-               Toast.makeText(MainActivity.this,"onChanged",Toast.LENGTH_SHORT).show();
+
+            adapter.getMovieDb(taskEntries);
 
             }
         });
+
+
 
 
 
