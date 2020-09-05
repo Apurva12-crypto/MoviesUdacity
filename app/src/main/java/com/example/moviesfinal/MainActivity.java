@@ -54,6 +54,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
 
+
+
         RecyclerView s1 =findViewById(R.id.dear_RecyclerView);
         s1.setLayoutManager(new LinearLayoutManager(this));
         s1.setHasFixedSize(true);

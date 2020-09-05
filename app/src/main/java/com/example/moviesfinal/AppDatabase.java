@@ -44,6 +44,8 @@ public abstract class AppDatabase extends RoomDatabase {
         }
     };
 
+    public abstract MyDao taskDao();
+
 
     private static class populatedbAsyncTask extends AsyncTask<Void,Void,Void>{
 
@@ -55,8 +57,8 @@ public abstract class AppDatabase extends RoomDatabase {
 
         @Override
         protected Void doInBackground(Void... voids) {
-            myDao.insertTask(new TaskEntry("Title","Description","Poster"
-                    ,"rating","release date"));
+            myDao.insertTask(new TaskEntry("Title","Description","release"
+                    ,"poster","rating"));
             return null;
         }
     }

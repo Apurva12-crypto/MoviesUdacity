@@ -10,5 +10,8 @@
     <item
         android:title="Top Rated Movies"
         android:id="@+id/topRated"/>
+    <item
+        android:title="Favourite"
+        android:id="@+id/fav"/>
 
 </menu>
