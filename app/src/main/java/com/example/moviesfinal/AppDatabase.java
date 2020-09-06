@@ -18,6 +18,7 @@ public abstract class AppDatabase extends RoomDatabase {
     private static final Object LOCK = new Object();
     private static final String DATABASE_NAME = "TheMovieDatabase";
     private static AppDatabase sInstance;
+
     public abstract MyDao myDao();
 
     public static AppDatabase getInstance(Context context) {
@@ -44,7 +45,7 @@ public abstract class AppDatabase extends RoomDatabase {
         }
     };
 
-    public abstract MyDao taskDao();
+
 
 
     private static class populatedbAsyncTask extends AsyncTask<Void,Void,Void>{

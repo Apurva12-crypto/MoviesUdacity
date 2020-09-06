@@ -14,7 +14,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.github.ivbaranov.mfb.MaterialFavoriteButton;
+
 import com.squareup.picasso.Picasso;
 
 public class MovieDetailsActivity extends AppCompatActivity {
@@ -46,10 +46,10 @@ private AppDatabase mDb;
 
         //collect all the property or details value
         final String title = mov.getTitle();
-        String img = mov.getPoster();
+        final String poster = mov.getPoster();
         final String release = mov.getRelease();
         final String rate = mov.getRate();
-        final String overview = mov.getOverview();
+        final String description = mov.getOverview();
         int id = mov.getId();
         Picasso.get().load(mov.getPoster()).into(posterImg);
         titleTv.setText(mov.getTitle());
@@ -65,9 +65,15 @@ private AppDatabase mDb;
             @Override
             public void onClick(View v) {
 
+
                 TaskEntry taskEntry = new TaskEntry(title,description,release,poster,rate);
 
-                mDb.taskDao().insertTask(taskEntry);
+
+                mDb.myDao().insertTask(taskEntry);
+
+                favButton.setBackgroundResource(R.drawable.ic_baseline_favorite_24);
+                Context context = getApplicationContext();
+                Toast.makeText(context,"saved to fav",Toast.LENGTH_SHORT).show();
 
 
 
