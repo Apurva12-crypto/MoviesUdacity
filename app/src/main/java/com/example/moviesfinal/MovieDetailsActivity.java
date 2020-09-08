@@ -4,9 +4,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
+
 import android.os.Bundle;
-import android.preference.PreferenceManager;
+
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -61,19 +61,22 @@ private AppDatabase mDb;
         mDb = AppDatabase.getInstance(getApplicationContext());
         favButton = findViewById(R.id.favButton);
 
+
+//add to favorite button (clickable)
         favButton.setOnClickListener(new View.OnClickListener() {
+            private static final String TAG ="is implemented" ;
+
             @Override
             public void onClick(View v) {
+                Log.d(TAG, "onClick: is implemented");
+                if(favButton.isClickable()){
+                  favButton.setBackgroundResource(R.drawable.ic_baseline_favorite_24);
 
+              }else
+              {
+                  favButton.setBackgroundResource(R.drawable.ic_baseline_shadow_24);
 
-                TaskEntry taskEntry = new TaskEntry(title,description,release,poster,rate);
-
-
-                mDb.myDao().insertTask(taskEntry);
-
-                favButton.setBackgroundResource(R.drawable.ic_baseline_favorite_24);
-                Context context = getApplicationContext();
-                Toast.makeText(context,"saved to fav",Toast.LENGTH_SHORT).show();
+              }
 
 
 
