@@ -101,6 +101,7 @@ public class MainActivity extends AppCompatActivity {
                 
     }
 
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -126,6 +127,11 @@ public class MainActivity extends AppCompatActivity {
                 sortType = "top_rated";
                 Toast.makeText(getApplicationContext(), "Sort By Rating", Toast.LENGTH_LONG).show();
                 break;
+            case R.id.fav:
+                sortType = "favorites";
+                Toast.makeText(getApplicationContext(), "Sort By favorites", Toast.LENGTH_LONG).show();
+                break;
+
 
         }
         task.cancel(true);

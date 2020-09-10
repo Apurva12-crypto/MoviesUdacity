@@ -13,8 +13,9 @@ import java.util.List;
 @Dao
 public interface MyDao  {
 
-    @Query("SELECT * FROM Movies_Table ORDER BY id ASC")
+    @Query("SELECT * FROM Movies_Table ORDER BY id ")
     LiveData<List<TaskEntry>> getAllMovies();
+
 
    @Insert
     void insertTask(TaskEntry taskEntry);
