@@ -3,6 +3,7 @@ package com.example.moviesfinal;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
@@ -28,6 +29,7 @@ import org.json.JSONException;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
@@ -43,7 +45,12 @@ public class MainActivity extends AppCompatActivity {
     private String sortType = "popular";
     private FetchData task;
 
+
     private MovieViewModel movieViewModel;
+    private LiveData<List<TaskEntry>> AllMovies;
+   LiveData<List<TaskEntry>> FavList = AllMovies;
+
+
 
     //  Create AppDatabase member variable for the Database
     private AppDatabase mDb;
@@ -69,6 +76,7 @@ public class MainActivity extends AppCompatActivity {
             public void onChanged(List<TaskEntry> taskEntries) {
 
             adapter.getMovieDb(taskEntries);
+            FavList = movieViewModel.getAllMovies();
 
             }
         });
@@ -129,6 +137,8 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case R.id.fav:
                 sortType = "favorites";
+
+
                 Toast.makeText(getApplicationContext(), "Sort By favorites", Toast.LENGTH_LONG).show();
                 break;
 
