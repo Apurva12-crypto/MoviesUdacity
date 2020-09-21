@@ -47,21 +47,19 @@ public class MainActivity extends AppCompatActivity {
 
 
     private MovieViewModel movieViewModel;
+
     private LiveData<List<TaskEntry>> AllMovies;
-   LiveData<List<TaskEntry>> FavList = AllMovies;
 
 
+    List<TaskEntry> FavList = new ArrayList<>();
 
-    //  Create AppDatabase member variable for the Database
+   //  Create AppDatabase member variable for the Database
     private AppDatabase mDb;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-
-
 
         RecyclerView s1 =findViewById(R.id.dear_RecyclerView);
         s1.setLayoutManager(new LinearLayoutManager(this));
@@ -76,7 +74,7 @@ public class MainActivity extends AppCompatActivity {
             public void onChanged(List<TaskEntry> taskEntries) {
 
             adapter.getMovieDb(taskEntries);
-            FavList = movieViewModel.getAllMovies();
+            FavList = (List<TaskEntry>) movieViewModel.getAllMovies();
 
             }
         });
@@ -137,6 +135,8 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case R.id.fav:
                 sortType = "favorites";
+                mAdapter.setTasks(mDb.myDao().getAllMovies());
+
 
 
                 Toast.makeText(getApplicationContext(), "Sort By favorites", Toast.LENGTH_LONG).show();

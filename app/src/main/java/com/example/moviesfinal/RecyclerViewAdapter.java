@@ -12,18 +12,19 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.squareup.picasso.Picasso;
 
+import java.util.List;
 
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.MyViewHolder> {
 
 
     private static final String TAG ="error" ;
-    private Movie[] Movies;
+    private List<TaskEntry> Movies;
     Context context;
 
 
     // Provide a suitable constructor (depends on the kind of dataset)
-    public RecyclerViewAdapter(Context context,Movie[] myDataset) {
+    public RecyclerViewAdapter(Context context,Movie<> myDataset) {
         this.Movies = myDataset;
         this.context=context;
 
@@ -70,6 +71,14 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
 
 
+    }
+    /**
+     * When data changes, this method updates the list of taskEntries
+     * and notifies the adapter to use the new values on it
+     */
+    public void setTasks(List<TaskEntry> taskEntries) {
+        Movies = taskEntries;
+        notifyDataSetChanged();
     }
     // Return the size of your dataset (invoked by the layout manager)
     @Override
