@@ -35,26 +35,35 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
 
 
+
     private RecyclerView recyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager layoutManager;
     private Context context;
     private ImageView imageView;
 
-    private Movie[] Movies = new Movie[0];
+
+
+
     private String sortType = "popular";
     private FetchData task;
 
 
     private MovieViewModel movieViewModel;
 
+
+
     private LiveData<List<TaskEntry>> AllMovies;
+
+    private ArrayList<TaskEntry> movies;
 
 
     List<TaskEntry> FavList = new ArrayList<>();
 
    //  Create AppDatabase member variable for the Database
     private AppDatabase mDb;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,13 +87,6 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
-
-
-
-
-
-
-
         String Sort_Popular = "http://api.themoviedb.org/3/movie/popular?api_key=338b39a38ed5065e52e0281a6aa38361";
         String Sort_Rating = "http://api.themoviedb.org/3/movie/top_rated?api_key=338b39a38ed5065e52e0281a6aa38361";
 
@@ -99,7 +101,8 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(layoutManager);
 
         // specify an adapter (see also next example)
-        mAdapter = new RecyclerViewAdapter(context, Movies);
+
+        RecyclerViewAdapter mAdapter = new RecyclerViewAdapter(context,movies );
                 recyclerView.setAdapter(mAdapter);
 
         // COMPLETED (2) Initialize member variable for the data base
@@ -135,10 +138,6 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case R.id.fav:
                 sortType = "favorites";
-                mAdapter.setTasks(mDb.myDao().getAllMovies());
-
-
-
                 Toast.makeText(getApplicationContext(), "Sort By favorites", Toast.LENGTH_LONG).show();
                 break;
 
@@ -180,11 +179,13 @@ public class MainActivity extends AppCompatActivity {
             super.onPostExecute(s);
 
             try {
+               ArrayList<TaskEntry> movies;
+
 
                 Movie[] Movies = JsonUtils.getMovieInformationsFromJson(MainActivity.this, s);
                 new GridLayoutManager(MainActivity.this, 2);
                 recyclerView.setLayoutManager(layoutManager);
-                mAdapter = new RecyclerViewAdapter(MainActivity.this, Movies);
+                mAdapter = new RecyclerViewAdapter(MainActivity.this,movies);
                 recyclerView.setAdapter(mAdapter);
 
 
