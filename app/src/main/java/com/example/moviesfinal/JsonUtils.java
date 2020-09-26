@@ -12,8 +12,7 @@ public class JsonUtils {
 
         final String TMDB_BASE_URL = "https://image.tmdb.org/t/p/";
         final String TMDB_POSTER_SIZE = "w185";
-         final String BACKDROP_SIZE = "w342";
-
+        final String BACKDROP_SIZE = "w342";
 
 
         // You guys recommended me to use key strings in my last code review, so here it is :)
@@ -23,8 +22,7 @@ public class JsonUtils {
         final String TMDB_VOTE = "vote_average";
         final String TMDB_OVERVIEW = "overview";
         final String TMDB_RELEASE_DATE = "release_date";
-        final String TMDB_ID="movie_id";
-
+        final String TMDB_ID = "movie_id";
 
         //and once again the amazing sunshine app.
 
@@ -32,7 +30,7 @@ public class JsonUtils {
 
         JSONArray movieArray = movieJson.getJSONArray(TMDB_RESULTS);
 
-        Movie[] movieResults = new Movie[movieArray.length()];
+       Movie[] movieResults = new Movie[movieArray.length()];
 
 
         for (int i = 0; i < movieArray.length(); i++){
@@ -55,6 +53,7 @@ public class JsonUtils {
             movie.setRate(vote_average);
             movie.setOverview(overview);
             movie.setId(id);
+
             movieResults[i] = movie;
 
 
@@ -64,5 +63,3 @@ public class JsonUtils {
         return movieResults;
     }
 }
-
-

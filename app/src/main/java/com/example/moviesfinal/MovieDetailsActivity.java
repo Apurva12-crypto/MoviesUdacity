@@ -17,26 +17,28 @@ import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
+import java.util.Date;
+
 public class MovieDetailsActivity extends AppCompatActivity {
 
     ImageView posterImg;
-    TextView titleTv,releaseDateTv,ratingTv,overviewTv;
+    TextView titleTv, releaseDateTv, ratingTv, overviewTv;
 
-Button favButton;
+    Button favButton;
 
-private AppDatabase mDb;
+    private AppDatabase mDb;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_movie_details);
 
+
         posterImg = findViewById(R.id.img1);
         titleTv = findViewById(R.id.Movtitle);
         releaseDateTv = findViewById(R.id.relDate);
         ratingTv = findViewById(R.id.rating1);
         overviewTv = findViewById(R.id.over);
-
 
 
         //collect your intent
@@ -59,43 +61,41 @@ private AppDatabase mDb;
 
         //Initialize member variable for the data base
         mDb = AppDatabase.getInstance(getApplicationContext());
+
+
         favButton = findViewById(R.id.favButton);
-
-
-//add to favorite button (clickable)
+        //add to favorite button (clickable)
         favButton.setOnClickListener(new View.OnClickListener() {
             private static final String TAG ="is implemented" ;
-
             @Override
             public void onClick(View v) {
                 Log.d(TAG, "onClick: is implemented");
-                if(favButton.isClickable()){
+                if(favButton.isSelected()){
                     TaskEntry taskEntry = new TaskEntry(title,description,release,poster,rate);
                     mDb.myDao().insertTask(taskEntry);
                     Context context = getApplicationContext();
-                    Toast.makeText(context,"saved to fav",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context,"saved to favorites",Toast.LENGTH_SHORT).show();
 
-                  favButton.setBackgroundResource(R.drawable.ic_baseline_favorite_24);
+                    favButton.setBackgroundResource(R.drawable.ic_baseline_favorite_24);
+                }else
+                {
+                    TaskEntry taskEntry = new TaskEntry(title,description,release,poster,rate);
+                    mDb.myDao().onDeleteTask(taskEntry);
+                    favButton.setBackgroundResource(R.drawable.ic_baseline_shadow_24);
+                    Context context = getApplicationContext();
 
-              }else
-              {
-                  favButton.setBackgroundResource(R.drawable.ic_baseline_shadow_24);
-                  Context context = getApplicationContext();
-                  Toast.makeText(context,"saved to fav",Toast.LENGTH_SHORT).show();
-
-              }
-
-
-
+                    Toast.makeText(context,"removed from to favorites",Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
 
 
     }
+}
 
 
 
 
 
-    }
+

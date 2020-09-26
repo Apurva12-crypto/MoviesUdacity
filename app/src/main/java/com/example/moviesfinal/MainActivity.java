@@ -35,7 +35,6 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
 
 
-
     private RecyclerView recyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager layoutManager;
@@ -51,6 +50,7 @@ public class MainActivity extends AppCompatActivity {
 
     private MovieViewModel movieViewModel;
 
+    private Movie[] Movies = new Movie[0];
 
 
     private LiveData<List<TaskEntry>> AllMovies;
@@ -60,9 +60,8 @@ public class MainActivity extends AppCompatActivity {
 
     List<TaskEntry> FavList = new ArrayList<>();
 
-   //  Create AppDatabase member variable for the Database
+    //  Create AppDatabase member variable for the Database
     private AppDatabase mDb;
-
 
 
     @Override
@@ -70,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        RecyclerView s1 =findViewById(R.id.dear_RecyclerView);
+        RecyclerView s1 = findViewById(R.id.dear_RecyclerView);
         s1.setLayoutManager(new LinearLayoutManager(this));
         s1.setHasFixedSize(true);
 
@@ -82,8 +81,9 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onChanged(List<TaskEntry> taskEntries) {
 
-            adapter.getMovieDb(taskEntries);
-            FavList = (List<TaskEntry>) movieViewModel.getAllMovies();
+                adapter.getMovieDb(taskEntries);
+                FavList = taskEntries;
+
 
             }
         });
@@ -93,7 +93,7 @@ public class MainActivity extends AppCompatActivity {
         task = new FetchData();
         task.execute("popular");
 
-        recyclerView =  findViewById(R.id.dear_RecyclerView);
+        recyclerView = findViewById(R.id.dear_RecyclerView);
         imageView = findViewById(R.id.myImage);
 
         // use a linear layout manager
@@ -102,12 +102,12 @@ public class MainActivity extends AppCompatActivity {
 
         // specify an adapter (see also next example)
 
-        RecyclerViewAdapter mAdapter = new RecyclerViewAdapter(context,movies );
-                recyclerView.setAdapter(mAdapter);
+        RecyclerViewAdapter mAdapter = new RecyclerViewAdapter(context, Movies);
+        recyclerView.setAdapter(mAdapter);
 
         // COMPLETED (2) Initialize member variable for the data base
         mDb = AppDatabase.getInstance(getApplicationContext());
-                
+
     }
 
 
@@ -138,6 +138,7 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case R.id.fav:
                 sortType = "favorites";
+
                 Toast.makeText(getApplicationContext(), "Sort By favorites", Toast.LENGTH_LONG).show();
                 break;
 
@@ -179,13 +180,12 @@ public class MainActivity extends AppCompatActivity {
             super.onPostExecute(s);
 
             try {
-               ArrayList<TaskEntry> movies;
 
 
                 Movie[] Movies = JsonUtils.getMovieInformationsFromJson(MainActivity.this, s);
                 new GridLayoutManager(MainActivity.this, 2);
                 recyclerView.setLayoutManager(layoutManager);
-                mAdapter = new RecyclerViewAdapter(MainActivity.this,movies);
+                mAdapter = new RecyclerViewAdapter(MainActivity.this, Movies);
                 recyclerView.setAdapter(mAdapter);
 
 
@@ -193,10 +193,7 @@ public class MainActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
         }
-
     }
-
-
 }
 
 

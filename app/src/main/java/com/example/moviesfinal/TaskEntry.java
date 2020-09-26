@@ -1,5 +1,8 @@
 package com.example.moviesfinal;
 
+import android.widget.ImageView;
+import android.widget.TextView;
+
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
@@ -20,6 +23,7 @@ public class TaskEntry  {
         this.poster = poster;
         this.rate = rate;
     }
+
 
 
 
