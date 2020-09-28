@@ -138,7 +138,6 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case R.id.fav:
                 sortType = "favorites";
-
                 Toast.makeText(getApplicationContext(), "Sort By favorites", Toast.LENGTH_LONG).show();
                 break;
 
@@ -148,6 +147,39 @@ public class MainActivity extends AppCompatActivity {
         task = new FetchData();
         task.execute(sortType);
         return super.onOptionsItemSelected(item);
+    }
+
+    /**
+     * This method is called after this activity has been paused or restarted.
+     * Often, this is after new data has been inserted through an AddTaskActivity,
+     * so this re-queries the database data for any changes.
+     */
+    @Override
+    protected void onResume() {
+        super.onResume();
+        // COMPLETED (5) Get the diskIO Executor from the instance of AppExecutors and
+        // call the diskIO execute method with a new Runnable and implement its run method
+        AppExecutors.getInstance().diskIO().execute(new Runnable() {
+            @Override
+            public void run() {
+                // COMPLETED (6) Move the logic into the run method and
+                // Extract the list of tasks to a final variable
+                final LiveData<List<TaskEntry>> tasks = mDb.myDao().getAllMovies();
+
+                // COMPLETED (7) Wrap the setTask call in a call to runOnUiThread
+                // We will be able to simplify this once we learn more
+                // about Android Architecture Components
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+
+
+
+
+                    }
+                });
+            }
+        });
     }
     //implementing image library Picasso
 

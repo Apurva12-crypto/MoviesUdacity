@@ -71,16 +71,30 @@ public class MovieDetailsActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Log.d(TAG, "onClick: is implemented");
                 if(favButton.isSelected()){
-                    TaskEntry taskEntry = new TaskEntry(title,description,release,poster,rate);
-                    mDb.myDao().insertTask(taskEntry);
+                    final TaskEntry taskEntry = new TaskEntry(title,description,release,poster,rate);
+                    AppExecutors.getInstance().diskIO().execute(new Runnable() {
+                        @Override
+                        public void run() {
+                            mDb.myDao().insertTask(taskEntry);
+
+                        }
+                    });
+
                     Context context = getApplicationContext();
                     Toast.makeText(context,"saved to favorites",Toast.LENGTH_SHORT).show();
 
                     favButton.setBackgroundResource(R.drawable.ic_baseline_favorite_24);
                 }else
                 {
-                    TaskEntry taskEntry = new TaskEntry(title,description,release,poster,rate);
-                    mDb.myDao().onDeleteTask(taskEntry);
+                    final TaskEntry taskEntry = new TaskEntry(title,description,release,poster,rate);
+                    AppExecutors.getInstance().diskIO().execute(new Runnable() {
+                        @Override
+                        public void run() {
+                            mDb.myDao().onDeleteTask(taskEntry);
+
+                        }
+                    });
+
                     favButton.setBackgroundResource(R.drawable.ic_baseline_shadow_24);
                     Context context = getApplicationContext();
 
