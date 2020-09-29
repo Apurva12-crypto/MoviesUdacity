@@ -65,48 +65,55 @@ public class MovieDetailsActivity extends AppCompatActivity {
 
         favButton = findViewById(R.id.favButton);
         //add to favorite button (clickable)
+
         favButton.setOnClickListener(new View.OnClickListener() {
+
             private static final String TAG ="is implemented" ;
+            boolean clicked = true;
             @Override
             public void onClick(View v) {
                 Log.d(TAG, "onClick: is implemented");
-                if(favButton.isSelected()){
+
+                if(clicked)
+                {
+
+                    clicked = false;
+                    favButton.setBackgroundResource(R.drawable.ic_baseline_favorite_24);
                     final TaskEntry taskEntry = new TaskEntry(title,description,release,poster,rate);
                     AppExecutors.getInstance().diskIO().execute(new Runnable() {
                         @Override
                         public void run() {
                             mDb.myDao().insertTask(taskEntry);
 
+
                         }
                     });
-
                     Context context = getApplicationContext();
                     Toast.makeText(context,"saved to favorites",Toast.LENGTH_SHORT).show();
 
-                    favButton.setBackgroundResource(R.drawable.ic_baseline_favorite_24);
                 }else
                 {
+                    clicked = true;
+                    favButton.setBackgroundResource(R.drawable.ic_baseline_shadow_24);
+
                     final TaskEntry taskEntry = new TaskEntry(title,description,release,poster,rate);
                     AppExecutors.getInstance().diskIO().execute(new Runnable() {
                         @Override
                         public void run() {
                             mDb.myDao().onDeleteTask(taskEntry);
 
+
                         }
                     });
-
-                    favButton.setBackgroundResource(R.drawable.ic_baseline_shadow_24);
                     Context context = getApplicationContext();
+                    Toast.makeText(context,"removed from favorites",Toast.LENGTH_SHORT).show();
 
-                    Toast.makeText(context,"removed from to favorites",Toast.LENGTH_SHORT).show();
                 }
             }
         });
-
-
-
-    }
+            }
 }
+
 
 
 
