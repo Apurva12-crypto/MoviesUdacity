@@ -1,5 +1,6 @@
 package com.example.moviesfinal;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,7 +13,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class storeMovieAdapter extends RecyclerView.Adapter<storeMovieAdapter.storeMovieViewHolder> {
-    private List<TaskEntry> MoviesDb =new ArrayList<>();
+    private List<TaskEntry> taskEntries = new ArrayList<>();
+
+
 
     @NonNull
     @Override
@@ -24,7 +27,7 @@ public class storeMovieAdapter extends RecyclerView.Adapter<storeMovieAdapter.st
 
     @Override
     public void onBindViewHolder(@NonNull storeMovieViewHolder holder, int position) {
-        TaskEntry currentMov = MoviesDb.get(position);
+        TaskEntry currentMov = taskEntries.get(position);
         holder.title.setText(currentMov.getTitle());
         holder.description.setText(currentMov.getDescription());
         holder.rating.setText(currentMov.getRate());
@@ -35,11 +38,18 @@ public class storeMovieAdapter extends RecyclerView.Adapter<storeMovieAdapter.st
 
     @Override
     public int getItemCount() {
-        return MoviesDb.size();
+        return taskEntries.size();
     }
+    public List<TaskEntry> getTasks() {
+        return taskEntries;
+    }
+    /**
+     * When data changes, this method updates the list of taskEntries
+     * and notifies the adapter to use the new values on it
+     */
 
-    public void getMovieDb(List<TaskEntry> MoviesDb){
-        this.MoviesDb =MoviesDb;
+    public void setTasks(List<TaskEntry> taskEntries){
+        this.taskEntries =taskEntries;
         notifyDataSetChanged();
     }
 

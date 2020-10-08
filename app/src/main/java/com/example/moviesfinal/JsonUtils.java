@@ -7,8 +7,11 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class JsonUtils {
-    public static Movie[] getMovieInformationsFromJson(Context context, String json) throws JSONException {
+    public static List<Movie> getMovieInformationsFromJson(Context context, String json) throws JSONException {
 
         final String TMDB_BASE_URL = "https://image.tmdb.org/t/p/";
         final String TMDB_POSTER_SIZE = "w185";
@@ -30,7 +33,8 @@ public class JsonUtils {
 
         JSONArray movieArray = movieJson.getJSONArray(TMDB_RESULTS);
 
-       Movie[] movieResults = new Movie[movieArray.length()];
+
+        ArrayList<Movie> movieResults = new ArrayList<>();
 
 
         for (int i = 0; i < movieArray.length(); i++){
@@ -54,7 +58,7 @@ public class JsonUtils {
             movie.setOverview(overview);
             movie.setId(id);
 
-            movieResults[i] = movie;
+            movieResults.add(movie);
 
 
 

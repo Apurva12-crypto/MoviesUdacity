@@ -2,7 +2,6 @@ package com.example.moviesfinal;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.Parcelable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,19 +13,19 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
-import java.util.List;
 
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.MyViewHolder> {
 
 
     private static final String TAG ="error" ;
-    private Movie[] Movies;
+
+    private ArrayList<Movie> Movies;
     Context context;
 
 
     // Provide a suitable constructor (depends on the kind of dataset)
-    public RecyclerViewAdapter(Context context,Movie[] myDataset) {
+    public RecyclerViewAdapter(Context context, ArrayList<Movie> myDataset) {
         this.Movies = myDataset;
         this.context=context;
 
@@ -53,7 +52,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     public void onBindViewHolder(@NonNull RecyclerViewAdapter.MyViewHolder holder, int position) {
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
-        final Movie mov = Movies[position];
+        final Movie mov = Movies.get(position);
 
         Picasso.get().load(mov.getPoster()).into(holder.image);
         Log.d(TAG, "onBindViewHolder:picasso ");
@@ -66,18 +65,11 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                 context.startActivity(intent);
             }
         });
-
-
-
-
-
-
-
     }
     // Return the size of your dataset (invoked by the layout manager)
     @Override
     public int getItemCount() {
-        return Movies.length;
+        return Movies.size();
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {

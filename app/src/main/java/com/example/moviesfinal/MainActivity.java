@@ -5,12 +5,14 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -35,58 +37,49 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
 
 
+    private static final String TAG ="Actively retrieving the tasks from the DataBase" ;
     private RecyclerView recyclerView;
+
+    //adapter for top rated and highest rated
     private RecyclerView.Adapter mAdapter;
+
+    //adapter for fav list of movies
+    private RecyclerView.Adapter adapter;
     private RecyclerView.LayoutManager layoutManager;
     private Context context;
     private ImageView imageView;
+    private Context con;
 
+    private ViewModel movieViewModel;
 
+    private LiveData<List<TaskEntry>> AllMovies;
 
 
     private String sortType = "popular";
     private FetchData task;
 
+    // create an empty  ArrayList String type ro fetch the movies by json response
+    private ArrayList<Movie> Movies = new ArrayList<>();
 
-    private MovieViewModel movieViewModel;
-
-    private Movie[] Movies = new Movie[0];
-
-
-    private LiveData<List<TaskEntry>> AllMovies;
-
-    private ArrayList<TaskEntry> movies;
-
-
-    List<TaskEntry> FavList = new ArrayList<>();
+    //create an empty lIst to fectch all fav movies from room database
+    private ArrayList<TaskEntry>taskEntries = new ArrayList<>();
 
     //  Create AppDatabase member variable for the Database
     private AppDatabase mDb;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        RecyclerView s1 = findViewById(R.id.dear_RecyclerView);
-        s1.setLayoutManager(new LinearLayoutManager(this));
-        s1.setHasFixedSize(true);
+        //(DATA BASE RECYCLER VIEW)
+         recyclerView = findViewById(R.id.dear_RecyclerView);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setHasFixedSize(true);
 
-        final storeMovieAdapter adapter = new storeMovieAdapter();
-        s1.setAdapter(adapter);
+        storeMovieAdapter adapter = new storeMovieAdapter();
+        recyclerView.setAdapter(adapter);
 
-        movieViewModel = ViewModelProviders.of(this).get(MovieViewModel.class);
-        movieViewModel.getAllMovies().observe(this, new Observer<List<TaskEntry>>() {
-            @Override
-            public void onChanged(List<TaskEntry> taskEntries) {
-
-                adapter.getMovieDb(taskEntries);
-                FavList = taskEntries;
-
-
-            }
-        });
         String Sort_Popular = "http://api.themoviedb.org/3/movie/popular?api_key=338b39a38ed5065e52e0281a6aa38361";
         String Sort_Rating = "http://api.themoviedb.org/3/movie/top_rated?api_key=338b39a38ed5065e52e0281a6aa38361";
 
@@ -138,7 +131,9 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case R.id.fav:
                 sortType = "favorites";
-                Toast.makeText(getApplicationContext(), "Sort By favorites", Toast.LENGTH_LONG).show();
+                mDb = AppDatabase.getInstance(getApplicationContext());
+                retrieveTasks();
+                Toast.makeText(getApplicationContext(), " favorites", Toast.LENGTH_LONG).show();
                 break;
 
 
@@ -149,38 +144,42 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @SuppressLint("LongLogTag")
+    private void retrieveTasks() {
+        Log.d(TAG, "onCreate: Actively retrieving the tasks from the DataBase");
+
+        //(DATA BASE RECYCLER VIEW)
+        recyclerView = findViewById(R.id.dear_RecyclerView);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setHasFixedSize(true);
+
+        final storeMovieAdapter adapter = new storeMovieAdapter();
+        recyclerView.setAdapter(adapter);
+        // init the view model and get all movies from the DB
+        movieViewModel =ViewModelProviders.of(this).get(MovieViewModel.class);
+
+        // Observe changes in the DB
+        ((MovieViewModel) movieViewModel).getAllMovies().observe(this, new Observer<List<TaskEntry>>() {
+            @Override
+            public void onChanged(List<TaskEntry> taskEntries) {
+                // taskEnteries is the updated list
+                // pass it to the adapter
+                adapter.setTasks(taskEntries);
+
+
+
+
+
+            }
+        });
+    }
+
     /**
      * This method is called after this activity has been paused or restarted.
      * Often, this is after new data has been inserted through an AddTaskActivity,
      * so this re-queries the database data for any changes.
      */
-    @Override
-    protected void onResume() {
-        super.onResume();
-        // COMPLETED (5) Get the diskIO Executor from the instance of AppExecutors and
-        // call the diskIO execute method with a new Runnable and implement its run method
-        AppExecutors.getInstance().diskIO().execute(new Runnable() {
-            @Override
-            public void run() {
-                // COMPLETED (6) Move the logic into the run method and
-                // Extract the list of tasks to a final variable
-                final LiveData<List<TaskEntry>> tasks = mDb.myDao().getAllMovies();
 
-                // COMPLETED (7) Wrap the setTask call in a call to runOnUiThread
-                // We will be able to simplify this once we learn more
-                // about Android Architecture Components
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-
-
-
-
-                    }
-                });
-            }
-        });
-    }
     //implementing image library Picasso
 
     public void onClick(View view) {
@@ -212,9 +211,8 @@ public class MainActivity extends AppCompatActivity {
             super.onPostExecute(s);
 
             try {
+                ArrayList<Movie> Movies = (ArrayList<Movie>) JsonUtils.getMovieInformationsFromJson(MainActivity.this,s);
 
-
-                Movie[] Movies = JsonUtils.getMovieInformationsFromJson(MainActivity.this, s);
                 new GridLayoutManager(MainActivity.this, 2);
                 recyclerView.setLayoutManager(layoutManager);
                 mAdapter = new RecyclerViewAdapter(MainActivity.this, Movies);
