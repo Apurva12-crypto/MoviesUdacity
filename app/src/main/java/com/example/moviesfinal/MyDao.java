@@ -25,4 +25,6 @@ public interface MyDao  {
 
    @Delete
     void onDeleteTask(TaskEntry taskEntry);
+
+
 }

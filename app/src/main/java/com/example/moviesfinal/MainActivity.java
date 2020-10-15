@@ -52,7 +52,7 @@ public class MainActivity extends AppCompatActivity {
 
     private ViewModel movieViewModel;
 
-    private LiveData<List<TaskEntry>> AllMovies;
+
 
 
     private String sortType = "popular";
@@ -61,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
     // create an empty  ArrayList String type ro fetch the movies by json response
     private ArrayList<Movie> Movies = new ArrayList<>();
 
-    //create an empty lIst to fectch all fav movies from room database
+    //create an empty lIst to fetch all fav movies from room database
     private ArrayList<TaskEntry>taskEntries = new ArrayList<>();
 
     //  Create AppDatabase member variable for the Database
@@ -111,6 +111,7 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
+    @SuppressLint("LongLogTag")
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         int menuItemThatWasSelected = item.getItemId();
@@ -130,7 +131,12 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "Sort By Rating", Toast.LENGTH_LONG).show();
                 break;
             case R.id.fav:
-                sortType = "favorites";
+                Log.d(TAG, "Actively retrieving a specific task from the DataBase");
+
+                AddTaskViewModelFactory factory = new AddTaskViewModelFactory(mDb,id);
+                final retrieveDataViewModel viewModel
+                        = ViewModelProviders.of(this, factory).get(retrieveDataViewModel.class);
+
                 mDb = AppDatabase.getInstance(getApplicationContext());
                 retrieveTasks();
                 Toast.makeText(getApplicationContext(), " favorites", Toast.LENGTH_LONG).show();
@@ -155,21 +161,19 @@ public class MainActivity extends AppCompatActivity {
 
         final storeMovieAdapter adapter = new storeMovieAdapter();
         recyclerView.setAdapter(adapter);
+
         // init the view model and get all movies from the DB
         movieViewModel =ViewModelProviders.of(this).get(MovieViewModel.class);
 
         // Observe changes in the DB
+
         ((MovieViewModel) movieViewModel).getAllMovies().observe(this, new Observer<List<TaskEntry>>() {
             @Override
             public void onChanged(List<TaskEntry> taskEntries) {
+                Log.d(TAG, "Updating list of tasks from LiveData in ViewModel");
                 // taskEnteries is the updated list
                 // pass it to the adapter
                 adapter.setTasks(taskEntries);
-
-
-
-
-
             }
         });
     }
