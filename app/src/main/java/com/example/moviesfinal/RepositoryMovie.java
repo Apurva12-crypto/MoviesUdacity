@@ -11,7 +11,7 @@ public class RepositoryMovie {
     private MyDao myDao;
     private LiveData<List<TaskEntry>> AllMovies;
 
-    public RepositoryMovie(Application application){
+    public RepositoryMovie(AppDatabase application){
        AppDatabase database = AppDatabase.getInstance(application);
 myDao = database.myDao();
 AllMovies = myDao.getAllMovies();

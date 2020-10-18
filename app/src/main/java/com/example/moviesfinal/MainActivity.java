@@ -52,6 +52,8 @@ public class MainActivity extends AppCompatActivity {
 
     private ViewModel movieViewModel;
 
+    private LiveData<List<TaskEntry>> AllMovies;
+
 
 
 
@@ -133,9 +135,8 @@ public class MainActivity extends AppCompatActivity {
             case R.id.fav:
                 Log.d(TAG, "Actively retrieving a specific task from the DataBase");
 
-                AddTaskViewModelFactory factory = new AddTaskViewModelFactory(mDb,id);
-                final retrieveDataViewModel viewModel
-                        = ViewModelProviders.of(this, factory).get(retrieveDataViewModel.class);
+
+
 
                 mDb = AppDatabase.getInstance(getApplicationContext());
                 retrieveTasks();
