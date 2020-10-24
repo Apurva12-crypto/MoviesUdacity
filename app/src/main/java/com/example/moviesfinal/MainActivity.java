@@ -133,13 +133,27 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "Sort By Rating", Toast.LENGTH_LONG).show();
                 break;
             case R.id.fav:
-                Log.d(TAG, "Actively retrieving a specific task from the DataBase");
 
+
+                MovieViewModelFactory factory = new MovieViewModelFactory(mDb);
+
+                final MovieViewModel viewModel
+                        = ViewModelProviders.of(this, factory).get(MovieViewModel.class);
+
+                viewModel.getTask().observe(this, new Observer<List<TaskEntry>>() {
+                    @Override
+                    public void onChanged(List<TaskEntry> taskEntries) {
+                        viewModel.getTask().removeObserver(this);
+
+
+
+                    }
+                });
 
 
 
                 mDb = AppDatabase.getInstance(getApplicationContext());
-                retrieveTasks();
+
                 Toast.makeText(getApplicationContext(), " favorites", Toast.LENGTH_LONG).show();
                 break;
 
@@ -150,6 +164,8 @@ public class MainActivity extends AppCompatActivity {
         task.execute(sortType);
         return super.onOptionsItemSelected(item);
     }
+
+
 
     @SuppressLint("LongLogTag")
     private void retrieveTasks() {
@@ -167,7 +183,6 @@ public class MainActivity extends AppCompatActivity {
         movieViewModel =ViewModelProviders.of(this).get(MovieViewModel.class);
 
         // Observe changes in the DB
-
         ((MovieViewModel) movieViewModel).getAllMovies().observe(this, new Observer<List<TaskEntry>>() {
             @Override
             public void onChanged(List<TaskEntry> taskEntries) {
