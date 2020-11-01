@@ -26,5 +26,6 @@ public interface MyDao  {
    @Delete
     void onDeleteTask(TaskEntry taskEntry);
 
-
+    @Query("SELECT * FROM Movies_Table WHERE id = :id")
+    LiveData<TaskEntry> loadTaskById(int id);
 }

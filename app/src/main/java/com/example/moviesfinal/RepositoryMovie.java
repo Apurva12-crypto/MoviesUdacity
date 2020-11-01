@@ -10,11 +10,14 @@ import java.util.List;
 public class RepositoryMovie {
     private MyDao myDao;
     private LiveData<List<TaskEntry>> AllMovies;
+    private AppDatabase mDb;
 
-    public RepositoryMovie(AppDatabase database){
 
-myDao = database.myDao();
-AllMovies = myDao.getAllMovies();
+    public RepositoryMovie(Application application){
+        AppDatabase database = AppDatabase.getInstance(application);
+        mDb = AppDatabase.getInstance(application.getApplicationContext());
+        myDao = database.myDao();
+       AllMovies = myDao.getAllMovies();
     }
     public void insert(TaskEntry taskEntry){
 new InsertAsyncTask(myDao).execute(taskEntry);
@@ -34,7 +37,7 @@ new InsertAsyncTask(myDao).execute(taskEntry);
         return AllMovies;
    }
 
-   public static class InsertAsyncTask extends AsyncTask<TaskEntry,Void,Void>{
+    public static class InsertAsyncTask extends AsyncTask<TaskEntry,Void,Void>{
 private MyDao myDao;
 
 private InsertAsyncTask(MyDao myDao){

@@ -54,6 +54,8 @@ public class MainActivity extends AppCompatActivity {
 
     private LiveData<List<TaskEntry>> AllMovies;
 
+    private int id;
+
 
 
 
@@ -135,10 +137,12 @@ public class MainActivity extends AppCompatActivity {
             case R.id.fav:
 
 
-                MovieViewModelFactory factory = new MovieViewModelFactory(mDb);
+                MovieDetailViewModelFactory factory = new MovieDetailViewModelFactory(mDb,id);
 
-                final MovieViewModel viewModel
-                        = ViewModelProviders.of(this, factory).get(MovieViewModel.class);
+                final MovieDetailViewModelFactory viewModel
+                        = ViewModelProviders.of(this, factory).get(MovieDetailViewModelFactory.class);
+
+
 
                 viewModel.getTask().observe(this, new Observer<List<TaskEntry>>() {
                     @Override
@@ -179,11 +183,17 @@ public class MainActivity extends AppCompatActivity {
         final storeMovieAdapter adapter = new storeMovieAdapter();
         recyclerView.setAdapter(adapter);
 
+
+        MovieDetailViewModelFactory factory = new MovieDetailViewModelFactory(mDb, id);
+
+        final MovieDetailViewModelFactory viewModel
+                = ViewModelProviders.of(this, factory).get(MovieDetailViewModelFactory.class);
+
         // init the view model and get all movies from the DB
         movieViewModel =ViewModelProviders.of(this).get(MovieViewModel.class);
 
         // Observe changes in the DB
-        ((MovieViewModel) movieViewModel).getAllMovies().observe(this, new Observer<List<TaskEntry>>() {
+        ((MovieViewModel) movieViewModel).getTask().observe(this, new Observer<List<TaskEntry>>() {
             @Override
             public void onChanged(List<TaskEntry> taskEntries) {
                 Log.d(TAG, "Updating list of tasks from LiveData in ViewModel");

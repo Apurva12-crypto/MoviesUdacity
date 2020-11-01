@@ -1,6 +1,8 @@
 package com.example.moviesfinal;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
 import android.content.Intent;
@@ -18,6 +20,7 @@ import android.widget.Toast;
 import com.squareup.picasso.Picasso;
 
 import java.util.Date;
+import java.util.List;
 
 public class MovieDetailsActivity extends AppCompatActivity {
 
@@ -28,10 +31,24 @@ public class MovieDetailsActivity extends AppCompatActivity {
 
     private AppDatabase mDb;
 
+    private RecyclerView recyclerView;
+
+    //adapter for fav list of movies
+    private storeMovieAdapter adapter;
+
+    private storeMovieAdapter.storeMovieViewHolder holder;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_movie_details);
+
+        //(DATA BASE RECYCLER VIEW)
+        recyclerView = findViewById(R.id.dear_RecyclerView);
+
+
+
+        final storeMovieAdapter adapter = new storeMovieAdapter();
 
 
         posterImg = findViewById(R.id.img1);
@@ -52,12 +69,15 @@ public class MovieDetailsActivity extends AppCompatActivity {
         final String release = mov.getRelease();
         final String rate = mov.getRate();
         final String description = mov.getOverview();
-        int id = mov.getId();
+        final int id = mov.getId();
         Picasso.get().load(mov.getPoster()).into(posterImg);
         titleTv.setText(mov.getTitle());
         ratingTv.setText(mov.getRate());
         releaseDateTv.setText(mov.getRelease());
         overviewTv.setText(mov.getOverview());
+
+
+
 
         //Initialize member variable for the data base
         mDb = AppDatabase.getInstance(getApplicationContext());
@@ -76,16 +96,14 @@ public class MovieDetailsActivity extends AppCompatActivity {
 
                 if(clicked)
                 {
-
                     clicked = false;
                     favButton.setBackgroundResource(R.drawable.ic_baseline_favorite_24);
                     final TaskEntry taskEntry = new TaskEntry(title,description,release,poster,rate);
                     AppExecutors.getInstance().diskIO().execute(new Runnable() {
                         @Override
                         public void run() {
+                            taskEntry.getId(id);
                             mDb.myDao().insertTask(taskEntry);
-
-
                         }
                     });
                     Context context = getApplicationContext();
@@ -100,14 +118,12 @@ public class MovieDetailsActivity extends AppCompatActivity {
                     AppExecutors.getInstance().diskIO().execute(new Runnable() {
                         @Override
                         public void run() {
+                            taskEntry.getId(id);
                             mDb.myDao().onDeleteTask(taskEntry);
-
-
                         }
                     });
                     Context context = getApplicationContext();
                     Toast.makeText(context,"removed from favorites",Toast.LENGTH_SHORT).show();
-
                 }
             }
         });

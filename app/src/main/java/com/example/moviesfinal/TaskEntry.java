@@ -1,8 +1,5 @@
 package com.example.moviesfinal;
 
-import android.widget.ImageView;
-import android.widget.TextView;
-
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
@@ -13,6 +10,7 @@ public class TaskEntry  {
     private String release;
     private String poster;
     private String rate;
+
     @PrimaryKey(autoGenerate = true)
     private int id;
 
@@ -51,7 +49,7 @@ public class TaskEntry  {
         return rate;
     }
 
-    public int getId() {
-        return id;
+    public int getId(int id) {
+        return this.id;
     }
 }
