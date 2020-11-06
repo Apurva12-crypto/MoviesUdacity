@@ -14,20 +14,17 @@ public class TaskEntry  {
     @PrimaryKey(autoGenerate = true)
     private int id;
 
-    public TaskEntry(String title, String description, String release, String poster, String rate) {
+    public TaskEntry(String title, String description, String release, String poster, String rate, int id) {
+
         this.title = title;
         this.description = description;
         this.release = release;
         this.poster = poster;
         this.rate = rate;
-    }
-
-
-
-
-    public void setId(int id) {
         this.id = id;
     }
+
+
 
     public String getTitle() {
         return title;
@@ -48,8 +45,13 @@ public class TaskEntry  {
     public String getRate() {
         return rate;
     }
-
-    public int getId(int id) {
-        return this.id;
+    public int getId() {
+        return id;
     }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+
 }

@@ -135,28 +135,26 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "Sort By Rating", Toast.LENGTH_LONG).show();
                 break;
             case R.id.fav:
+                MovieDetailsViewModelFactory factory = new MovieDetailsViewModelFactory(mDb,id);
 
+                final MovieDetailsViewModel viewModel
+                        = ViewModelProviders.of(this,
+                        (ViewModelProvider.Factory) factory).get(MovieDetailsViewModel.class);
 
-                MovieDetailViewModelFactory factory = new MovieDetailViewModelFactory(mDb,id);
-
-                final MovieDetailViewModelFactory viewModel
-                        = ViewModelProviders.of(this, factory).get(MovieDetailViewModelFactory.class);
-
-
-
-                viewModel.getTask().observe(this, new Observer<List<TaskEntry>>() {
+                viewModel.getTask().observe(this, new Observer<TaskEntry>() {
                     @Override
-                    public void onChanged(List<TaskEntry> taskEntries) {
+                    public void onChanged(@Nullable TaskEntry taskEntry) {
                         viewModel.getTask().removeObserver(this);
-
-
 
                     }
                 });
 
 
 
+
+
                 mDb = AppDatabase.getInstance(getApplicationContext());
+                retrieveTasks();
 
                 Toast.makeText(getApplicationContext(), " favorites", Toast.LENGTH_LONG).show();
                 break;
@@ -183,17 +181,11 @@ public class MainActivity extends AppCompatActivity {
         final storeMovieAdapter adapter = new storeMovieAdapter();
         recyclerView.setAdapter(adapter);
 
-
-        MovieDetailViewModelFactory factory = new MovieDetailViewModelFactory(mDb, id);
-
-        final MovieDetailViewModelFactory viewModel
-                = ViewModelProviders.of(this, factory).get(MovieDetailViewModelFactory.class);
-
         // init the view model and get all movies from the DB
         movieViewModel =ViewModelProviders.of(this).get(MovieViewModel.class);
 
         // Observe changes in the DB
-        ((MovieViewModel) movieViewModel).getTask().observe(this, new Observer<List<TaskEntry>>() {
+        ((MovieViewModel) movieViewModel).getTasks().observe(this, new Observer<List<TaskEntry>>() {
             @Override
             public void onChanged(List<TaskEntry> taskEntries) {
                 Log.d(TAG, "Updating list of tasks from LiveData in ViewModel");

@@ -8,7 +8,6 @@ import androidx.annotation.NonNull;
 import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
-import androidx.room.TypeConverters;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
 @Database(entities = {TaskEntry.class}, version = 1, exportSchema = false)
@@ -59,7 +58,7 @@ public abstract class AppDatabase extends RoomDatabase {
         @Override
         protected Void doInBackground(Void... voids) {
             myDao.insertTask(new TaskEntry("Title","Description","release"
-                    ,"poster","rating"));
+                    ,"poster","rating","id"));
             return null;
         }
     }
