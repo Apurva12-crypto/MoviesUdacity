@@ -58,7 +58,7 @@ public abstract class AppDatabase extends RoomDatabase {
         @Override
         protected Void doInBackground(Void... voids) {
             myDao.insertTask(new TaskEntry("Title","Description","release"
-                    ,"poster","rating","id"));
+                    ,"poster","rating",0));
             return null;
         }
     }

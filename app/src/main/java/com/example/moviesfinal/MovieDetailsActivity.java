@@ -33,6 +33,7 @@ public class MovieDetailsActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
 
+
     //adapter for fav list of movies
     private storeMovieAdapter adapter;
 
@@ -98,11 +99,11 @@ public class MovieDetailsActivity extends AppCompatActivity {
                 {
                     clicked = false;
                     favButton.setBackgroundResource(R.drawable.ic_baseline_favorite_24);
-                    final TaskEntry taskEntry = new TaskEntry(title,description,release,poster,rate);
+                    final TaskEntry taskEntry = new TaskEntry(title,description,release,poster,rate,0);
                     AppExecutors.getInstance().diskIO().execute(new Runnable() {
                         @Override
                         public void run() {
-                            taskEntry.getId(id);
+                            taskEntry.getId();
                             mDb.myDao().insertTask(taskEntry);
                         }
                     });
@@ -114,11 +115,11 @@ public class MovieDetailsActivity extends AppCompatActivity {
                     clicked = true;
                     favButton.setBackgroundResource(R.drawable.ic_baseline_shadow_24);
 
-                    final TaskEntry taskEntry = new TaskEntry(title,description,release,poster,rate);
+                    final TaskEntry taskEntry = new TaskEntry(title,description,release,poster,rate,0);
                     AppExecutors.getInstance().diskIO().execute(new Runnable() {
                         @Override
                         public void run() {
-                            taskEntry.getId(id);
+                            taskEntry.getId();
                             mDb.myDao().onDeleteTask(taskEntry);
                         }
                     });
