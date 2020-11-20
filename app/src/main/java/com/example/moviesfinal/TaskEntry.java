@@ -1,5 +1,7 @@
 package com.example.moviesfinal;
 
+import android.net.Uri;
+
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
@@ -38,7 +40,7 @@ public class TaskEntry  {
         return release;
     }
 
-    public String getPoster() {
+    public  String getPoster() {
         return poster;
     }
 

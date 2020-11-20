@@ -3,6 +3,7 @@ package com.example.moviesfinal;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
+import android.widget.TabHost;
 
 import androidx.annotation.NonNull;
 import androidx.room.Database;
@@ -39,17 +40,20 @@ public abstract class AppDatabase extends RoomDatabase {
 
     private static RoomDatabase.Callback roomCallBack = new RoomDatabase.Callback() {
         @Override
-        public void onCreate(@NonNull SupportSQLiteDatabase db) {
-            super.onCreate(db);
+        public void onOpen(@NonNull SupportSQLiteDatabase db) {
+            super.onOpen(db);
+            new populatedbAsyncTask(sInstance).execute();
         }
     };
 
 
 
-
+//populate database in the background
     private static class populatedbAsyncTask extends AsyncTask<Void,Void,Void>{
 
-        private MyDao myDao;
+        private  MyDao myDao;
+
+
 
         private populatedbAsyncTask(AppDatabase appDatabase){
             myDao=appDatabase.myDao();
@@ -57,6 +61,10 @@ public abstract class AppDatabase extends RoomDatabase {
 
         @Override
         protected Void doInBackground(Void... voids) {
+            // Start the app with a clean database every time.
+            // Not needed if you only populate the database
+            // when it is first created
+            myDao.deleteAll();
             myDao.insertTask(new TaskEntry("Title","Description","release"
                     ,"poster","rating",0));
             return null;

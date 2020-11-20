@@ -28,4 +28,9 @@ public interface MyDao  {
 
     @Query("SELECT * FROM Movies_Table WHERE id = :id")
     LiveData<TaskEntry> loadTaskById(int id);
+
+    @Query("DELETE FROM Movies_Table")
+    void deleteAll();
+
+
 }

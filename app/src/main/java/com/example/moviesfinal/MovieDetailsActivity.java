@@ -44,9 +44,10 @@ public class MovieDetailsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_movie_details);
 
+
+
         //(DATA BASE RECYCLER VIEW)
         recyclerView = findViewById(R.id.dear_RecyclerView);
-
 
 
         final storeMovieAdapter adapter = new storeMovieAdapter();
@@ -78,22 +79,22 @@ public class MovieDetailsActivity extends AppCompatActivity {
         overviewTv.setText(mov.getOverview());
 
 
-
-
         //Initialize member variable for the data base
         mDb = AppDatabase.getInstance(getApplicationContext());
 
 
-        favButton = findViewById(R.id.favButton);
-        //add to favorite button (clickable)
 
+        //add to favorite button (clickable)
+        favButton = findViewById(R.id.favButton);
         favButton.setOnClickListener(new View.OnClickListener() {
 
             private static final String TAG ="is implemented" ;
+
             boolean clicked = true;
             @Override
             public void onClick(View v) {
                 Log.d(TAG, "onClick: is implemented");
+                favButton.setBackgroundResource(R.drawable.ic_baseline_shadow_24);
 
                 if(clicked)
                 {
@@ -128,8 +129,16 @@ public class MovieDetailsActivity extends AppCompatActivity {
                 }
             }
         });
-            }
+    }
 }
+
+
+
+
+
+
+
+
 
 
 
