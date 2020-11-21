@@ -74,7 +74,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+       setContentView(R.layout.activity_main);
 
         //(DATA BASE RECYCLER VIEW)
          recyclerView = findViewById(R.id.dear_RecyclerView);
@@ -145,6 +145,7 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onChanged(@Nullable TaskEntry taskEntry) {
                         viewModel.getTask().removeObserver(this);
+
 
                     }
                 });

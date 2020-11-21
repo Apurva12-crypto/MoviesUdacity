@@ -39,12 +39,16 @@ public class storeMovieAdapter extends RecyclerView.Adapter<storeMovieAdapter.st
     public void onBindViewHolder(@NonNull storeMovieViewHolder holder, int position) {
 
         final TaskEntry currentMov = taskEntries.get(position);
-        Picasso.get().load(currentMov.getPoster()).into(holder.poster);
 
-        holder.title.setText(currentMov.getTitle());
-        holder.release.setText(currentMov.getRelease());
-        holder.rating.setText(currentMov.getRate());
-        holder.description.setText(currentMov.getDescription());
+
+        Picasso.get().load(currentMov.getPoster()).into(holder.posterS);
+
+        holder.titleS.setText(currentMov.getTitle());
+        holder.releaseS.setText(currentMov.getRelease());
+        holder.ratingS.setText(currentMov.getRate());
+
+
+        holder.descriptionS.setText(currentMov.getDescription());
 
 
 
@@ -74,20 +78,23 @@ public class storeMovieAdapter extends RecyclerView.Adapter<storeMovieAdapter.st
     class storeMovieViewHolder extends RecyclerView.ViewHolder {
 
 
-        private TextView title;
-        private TextView description;
-        private TextView rating;
-        private TextView release;
-        private ImageView poster;
+        private ImageView posterS;
+        private TextView titleS;
+        private TextView descriptionS;
+        private TextView ratingS;
+        private TextView releaseS;
+
 
 
         public storeMovieViewHolder(@NonNull View itemView) {
             super(itemView);
-            poster = (ImageView) itemView.findViewById(R.id.myImage);
-            title = itemView.findViewById(R.id.Movtitle);
-            description = itemView.findViewById(R.id.over);
-            rating = itemView.findViewById(R.id.rating1);
-            release = itemView.findViewById(R.id.relDate);
+            posterS = (ImageView) itemView.findViewById(R.id.img1);
+            titleS = itemView.findViewById(R.id.Movtitle);
+            releaseS = itemView.findViewById(R.id.relDate);
+            ratingS = itemView.findViewById(R.id.rating1);
+            descriptionS = itemView.findViewById(R.id.over);
+
+
 
 
 
