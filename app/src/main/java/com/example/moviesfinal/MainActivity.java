@@ -37,7 +37,7 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
 
 
-    private static final String TAG ="Actively retrieving the tasks from the DataBase" ;
+    private static final String TAG = "Actively retrieving the tasks from the DataBase";
     private RecyclerView recyclerView;
 
     //adapter for top rated and highest rated
@@ -57,16 +57,15 @@ public class MainActivity extends AppCompatActivity {
     private int id;
 
 
-
-
     private String sortType = "popular";
+    private String sortTypeSave = "favorite";
     private FetchData task;
 
     // create an empty  ArrayList String type ro fetch the movies by json response
     private ArrayList<Movie> Movies = new ArrayList<>();
 
     //create an empty lIst to fetch all fav movies from room database
-    private ArrayList<TaskEntry>taskEntries = new ArrayList<>();
+    private ArrayList<TaskEntry> taskEntries = new ArrayList<>();
 
     //  Create AppDatabase member variable for the Database
     private AppDatabase mDb;
@@ -74,10 +73,10 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-       setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_main);
 
         //(DATA BASE RECYCLER VIEW)
-         recyclerView = findViewById(R.id.dear_RecyclerView);
+        recyclerView = findViewById(R.id.dear_RecyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setHasFixedSize(true);
 
@@ -127,46 +126,60 @@ public class MainActivity extends AppCompatActivity {
             case R.id.popular:
                 sortType = "popular";
                 Toast.makeText(getApplicationContext(), "Sort By Popular", Toast.LENGTH_LONG).show();
+
+
                 // Network Call (popular)
                 break;
 //                return true;
             case R.id.topRated:
                 sortType = "top_rated";
                 Toast.makeText(getApplicationContext(), "Sort By Rating", Toast.LENGTH_LONG).show();
+
+
                 break;
             case R.id.fav:
-                MovieDetailsViewModelFactory factory = new MovieDetailsViewModelFactory(mDb,id);
-
-                final MovieDetailsViewModel viewModel
-                        = ViewModelProviders.of(this,
-                        (ViewModelProvider.Factory) factory).get(MovieDetailsViewModel.class);
-
-                viewModel.getTask().observe(this, new Observer<TaskEntry>() {
-                    @Override
-                    public void onChanged(@Nullable TaskEntry taskEntry) {
-                        viewModel.getTask().removeObserver(this);
-
-
-                    }
-                });
-
-
-
-
-
-                mDb = AppDatabase.getInstance(getApplicationContext());
-                retrieveTasks();
-
-                Toast.makeText(getApplicationContext(), " favorites", Toast.LENGTH_LONG).show();
+                sortTypeSave = "favorite";
                 break;
-
-
         }
-        task.cancel(true);
-        task = new FetchData();
-        task.execute(sortType);
-        return super.onOptionsItemSelected(item);
-    }
+        if (sortTypeSave == "favorite") {
+            // retreive the favorites from the DB
+            MovieDetailsViewModelFactory factory = new MovieDetailsViewModelFactory(mDb, id);
+
+            final MovieDetailsViewModel viewModel
+                    = ViewModelProviders.of(this,
+                    (ViewModelProvider.Factory) factory).get(MovieDetailsViewModel.class);
+
+            viewModel.getTask().observe(this, new Observer<TaskEntry>() {
+                @Override
+                public void onChanged(@Nullable TaskEntry taskEntry) {
+                    viewModel.getTask().removeObserver(this);
+
+
+                }
+            });
+            mDb = AppDatabase.getInstance(getApplicationContext());
+            retrieveTasks();
+
+
+        } else {
+            // retrieve the movies based on sort type
+            // from the API using the AsyncTask
+
+            task.cancel(true);
+            task = new FetchData();
+            task.execute(sortType);
+        }
+            return super.onOptionsItemSelected(item);
+        }
+
+
+
+
+
+
+
+
+
 
 
 
