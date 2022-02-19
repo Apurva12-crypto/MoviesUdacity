@@ -20,6 +20,7 @@ import java.util.List;
 
 public class storeMovieAdapter extends RecyclerView.Adapter<storeMovieAdapter.storeMovieViewHolder> {
 
+    private static final String TAG ="storedMovieAdapterImg" ;
     private List<TaskEntry> taskEntries = new ArrayList<>();
     Context context;
 
@@ -29,7 +30,7 @@ public class storeMovieAdapter extends RecyclerView.Adapter<storeMovieAdapter.st
     @Override
     public storeMovieViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View itemV = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.saved_movies, parent, false);
+                .inflate(R.layout.details_saved, parent, false);
         return new storeMovieViewHolder(itemV);
     }
 
@@ -41,7 +42,10 @@ public class storeMovieAdapter extends RecyclerView.Adapter<storeMovieAdapter.st
         final TaskEntry currentMov = taskEntries.get(position);
 
 
+
+
         Picasso.get().load(currentMov.getPoster()).into(holder.posterS);
+        Log.d(TAG, "storedMovieAdapterImg ");
 
         holder.titleS.setText(currentMov.getTitle());
         holder.releaseS.setText(currentMov.getRelease());
@@ -49,6 +53,9 @@ public class storeMovieAdapter extends RecyclerView.Adapter<storeMovieAdapter.st
 
 
         holder.descriptionS.setText(currentMov.getDescription());
+
+
+
 
 
 
@@ -78,11 +85,13 @@ public class storeMovieAdapter extends RecyclerView.Adapter<storeMovieAdapter.st
     class storeMovieViewHolder extends RecyclerView.ViewHolder {
 
 
+
         private ImageView posterS;
         private TextView titleS;
         private TextView descriptionS;
         private TextView ratingS;
         private TextView releaseS;
+
 
 
 
@@ -93,6 +102,7 @@ public class storeMovieAdapter extends RecyclerView.Adapter<storeMovieAdapter.st
             releaseS = itemView.findViewById(R.id.relDate);
             ratingS = itemView.findViewById(R.id.rating1);
             descriptionS = itemView.findViewById(R.id.over);
+
 
 
 

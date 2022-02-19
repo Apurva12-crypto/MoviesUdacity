@@ -58,10 +58,10 @@ public class MainActivity extends AppCompatActivity {
 
 
     private String sortType = "popular";
-    private String sortTypeSave = "favorite";
+
     private FetchData task;
 
-    // create an empty  ArrayList String type ro fetch the movies by json response
+    // create an empty  ArrayList String type to fetch the movies by json response
     private ArrayList<Movie> Movies = new ArrayList<>();
 
     //create an empty lIst to fetch all fav movies from room database
@@ -136,12 +136,13 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "Sort By Rating", Toast.LENGTH_LONG).show();
 
 
+
                 break;
             case R.id.fav:
-                sortTypeSave = "favorite";
+                retrieveTasks();
                 break;
         }
-        if (sortTypeSave == "favorite") {
+        if (menuItemThatWasSelected == R.id.fav) {
             // retreive the favorites from the DB
             MovieDetailsViewModelFactory factory = new MovieDetailsViewModelFactory(mDb, id);
 
@@ -153,12 +154,13 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onChanged(@Nullable TaskEntry taskEntry) {
                     viewModel.getTask().removeObserver(this);
+                    retrieveTasks();
 
 
                 }
             });
             mDb = AppDatabase.getInstance(getApplicationContext());
-            retrieveTasks();
+
 
 
         } else {
@@ -173,17 +175,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
 
-
-
-
-
-
-
-
-
-
-
-    @SuppressLint("LongLogTag")
+        @SuppressLint("LongLogTag")
     private void retrieveTasks() {
         Log.d(TAG, "onCreate: Actively retrieving the tasks from the DataBase");
 

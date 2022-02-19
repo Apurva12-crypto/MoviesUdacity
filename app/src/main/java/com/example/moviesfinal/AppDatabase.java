@@ -65,8 +65,7 @@ public abstract class AppDatabase extends RoomDatabase {
             // Not needed if you only populate the database
             // when it is first created
             myDao.deleteAll();
-            myDao.insertTask(new TaskEntry("Title","Description","release"
-                    ,"poster","rating",0));
+
             return null;
         }
     }
